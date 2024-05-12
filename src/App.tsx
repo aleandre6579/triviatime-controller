@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { ChakraProvider, extendBaseTheme } from '@chakra-ui/react'; 
+import { initParticlesEngine } from '@tsparticles/react';
+import { loadFull } from "tsparticles"
+import HomeBackground from './components/HomeBackground';
+
+const theme = extendBaseTheme({
+  
+})
 
 function App() {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadFull(engine)
+    }).then(() => {
+      setInit(true)
+    })
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+      <HomeBackground/>
+    </ChakraProvider>
   );
 }
 
